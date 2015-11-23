@@ -1,19 +1,13 @@
 class LookAndSay(digit: Int) {
-  private def count(digit: Char)(seq: String): Int = {
-    if (seq isEmpty) 0
-    else if (seq.head != digit) 0
-    else count(digit)(seq.tail) + 1
-  }
+  private def say(seq: String) = {
+    def countSay(count: Int, digit: Char, remain: String): String = {
+      if (remain isEmpty) count.toString + digit
+      else if (remain.head != digit) count.toString + digit + countSay(1, remain.head, remain.tail)
+      else countSay(count + 1, digit, remain.tail)
+    }
 
-  private def remain(digit: Char)(seq: String): String = {
     if (seq isEmpty) ""
-    else if (seq.head != digit) seq
-    else remain(digit)(seq.tail)
-  }
-
-  private def say(seq: String): String = {
-    if (seq isEmpty) ""
-    else count(seq.head)(seq).toString + seq.head + say(remain(seq.head)(seq))
+    else countSay(1, seq.head, seq.tail)
   }
 
   def apply(index: Int) : String = {
